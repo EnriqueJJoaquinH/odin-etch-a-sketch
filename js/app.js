@@ -14,3 +14,7 @@ for (let row = 0; row < divisions; row++){
     
     canvas.appendChild(newRow);
 }
+
+canvas.addEventListener('mouseover', (event) => {
+    event.target.classList.add('paint');
+});

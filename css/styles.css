@@ -4,7 +4,7 @@
 }
 
 body {
-    background-color: gray;
+    background-color: #727D71;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,18 +14,22 @@ body {
 #canvas {
     height: 90vh;
     width: 90vh;
-    background-color: white;
+    background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
 }
 
 .row {
     height: calc(90vh / 16);
-    border: 1px solid gainsboro;
     display: flex;
 }
 
 .cell {
     width: calc(90vh / 16);
-    border: 1px solid gainsboro;
+    border: 1px solid #EEF0F2;
+}
+
+.paint {
+    background-color: #141414;
+    border: none;
 }
