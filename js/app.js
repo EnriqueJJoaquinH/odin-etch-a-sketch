@@ -1,11 +1,11 @@
 // ? Global variables
 let divisions = 16;
-let drawMode = 'paint';
+let drawMode = 'black-ink';
 
 // ? DOM elements
 let canvas = document.querySelector('#canvas');
 let eraseBtn = document.querySelector('#erase-btn');
-let paintBtn = document.querySelector('#paint-btn');
+let blackBtn = document.querySelector('#black-btn');
 let clearBtn = document.querySelector('#clear-btn');
 
 function createCanvasGrid() {
@@ -25,11 +25,11 @@ function createCanvasGrid() {
 
 function drawHandler(event) {
     switch (drawMode) {
-        case 'paint':
-            event.target.classList.replace('erase', 'paint');
+        case 'black-ink':
+            event.target.classList.replace('erase', 'black-ink');
             break;
         case 'erase':
-            event.target.classList.replace('paint', 'erase');
+            event.target.classList.replace('black-ink', 'erase');
             break;
     }
 }
@@ -41,6 +41,9 @@ function clearCanvas() {
             cell.classList.add('cell', 'erase');
         }
     }
+    drawMode = 'black-ink'
+    blackBtn.classList.add('mode-selected');
+    eraseBtn.classList.remove('mode-selected');
 }
 
 createCanvasGrid();
@@ -48,10 +51,14 @@ clearCanvas();
 
 eraseBtn.addEventListener('click', () => {
     drawMode = 'erase';
+    eraseBtn.classList.toggle('mode-selected');
+    blackBtn.classList.toggle('mode-selected');
 });
 
-paintBtn.addEventListener('click', () => {
-    drawMode = 'paint';
+blackBtn.addEventListener('click', () => {
+    drawMode = 'black-ink';
+    eraseBtn.classList.toggle('mode-selected');
+    blackBtn.classList.toggle('mode-selected');
 });
 
 clearBtn.addEventListener('click', clearCanvas);
