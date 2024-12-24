@@ -1,12 +1,12 @@
 // ? Global variables
 let divisions = 16;
-let drawMode = 'black-ink';
+let drawMode = 'black-btn';
 
 // ? DOM elements
 let canvas = document.querySelector('#canvas');
-let eraseBtn = document.querySelector('#erase-btn');
+let btnPanel = document.querySelector('#control-panel');
 let blackBtn = document.querySelector('#black-btn');
-let clearBtn = document.querySelector('#clear-btn');
+let eraseBtn = document.querySelector('#erase-btn');
 
 function createCanvasGrid() {
     for (let row = 0; row < divisions; row++){
@@ -23,17 +23,6 @@ function createCanvasGrid() {
     }
 }
 
-function drawHandler(event) {
-    switch (drawMode) {
-        case 'black-ink':
-            event.target.classList.replace('erase', 'black-ink');
-            break;
-        case 'erase':
-            event.target.classList.replace('black-ink', 'erase');
-            break;
-    }
-}
-
 function clearCanvas() {
     for (let row of Array.from(canvas.children)){
         for (let cell of Array.from(row.children)){
@@ -41,26 +30,40 @@ function clearCanvas() {
             cell.classList.add('cell', 'erase');
         }
     }
-    drawMode = 'black-ink'
+    drawMode = 'black-btn'
     blackBtn.classList.add('mode-selected');
     eraseBtn.classList.remove('mode-selected');
 }
 
+function buttonHandler(event) {
+    switch (event.target.id) {
+        case 'control-panel':
+            return;
+        case 'black-btn':
+        case 'erase-btn':
+            drawMode = event.target.id;
+            eraseBtn.classList.toggle('mode-selected');
+            blackBtn.classList.toggle('mode-selected');
+            break;
+        case 'clear-btn':
+            clearCanvas();
+            break;
+    }
+}
+
+function drawHandler(event) {
+    switch (drawMode) {
+        case 'black-btn':
+            event.target.classList.replace('erase', 'black-ink');
+            break;
+        case 'erase-btn':
+            event.target.classList.replace('black-ink', 'erase');
+            break;
+    }
+}
+
 createCanvasGrid();
-clearCanvas();
 
-eraseBtn.addEventListener('click', () => {
-    drawMode = 'erase';
-    eraseBtn.classList.toggle('mode-selected');
-    blackBtn.classList.toggle('mode-selected');
-});
-
-blackBtn.addEventListener('click', () => {
-    drawMode = 'black-ink';
-    eraseBtn.classList.toggle('mode-selected');
-    blackBtn.classList.toggle('mode-selected');
-});
-
-clearBtn.addEventListener('click', clearCanvas);
+btnPanel.addEventListener('click', buttonHandler)
 
 canvas.addEventListener('mouseover', drawHandler);
