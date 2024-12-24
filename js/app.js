@@ -6,6 +6,7 @@ let drawMode = 'paint';
 let canvas = document.querySelector('#canvas');
 let eraseBtn = document.querySelector('#erase-btn');
 let paintBtn = document.querySelector('#paint-btn');
+let clearBtn = document.querySelector('#clear-btn');
 
 function createCanvasGrid() {
     for (let row = 0; row < divisions; row++){
@@ -25,17 +26,25 @@ function createCanvasGrid() {
 function drawHandler(event) {
     switch (drawMode) {
         case 'paint':
-            event.target.classList.remove('erase');
-            event.target.classList.add('paint');
+            event.target.classList.replace('erase', 'paint');
             break;
         case 'erase':
-            event.target.classList.remove('paint');
-            event.target.classList.add('erase');
+            event.target.classList.replace('paint', 'erase');
             break;
     }
 }
 
-createCanvasGrid()
+function clearCanvas() {
+    for (let row of Array.from(canvas.children)){
+        for (let cell of Array.from(row.children)){
+            cell.classList.remove(...cell.classList);
+            cell.classList.add('cell', 'erase');
+        }
+    }
+}
+
+createCanvasGrid();
+clearCanvas();
 
 eraseBtn.addEventListener('click', () => {
     drawMode = 'erase';
@@ -44,5 +53,7 @@ eraseBtn.addEventListener('click', () => {
 paintBtn.addEventListener('click', () => {
     drawMode = 'paint';
 });
+
+clearBtn.addEventListener('click', clearCanvas);
 
 canvas.addEventListener('mouseover', drawHandler);
