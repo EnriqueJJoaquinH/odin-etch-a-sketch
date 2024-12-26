@@ -7,6 +7,8 @@ let canvas = document.querySelector('#canvas');
 let btnPanel = document.querySelector('#control-panel');
 let blackBtn = document.querySelector('#black-btn');
 let eraseBtn = document.querySelector('#erase-btn');
+let gridSlider = document.querySelector('#grid-slider');
+let sliderLabel = document.querySelector('label[for="grid-slider"]');
 
 function createCanvasGrid() {
     for (let row = 0; row < divisions; row++){
@@ -18,12 +20,26 @@ function createCanvasGrid() {
             newCell.classList.add('cell', 'erase');
             newRow.appendChild(newCell);
         }
-
         canvas.appendChild(newRow);
     }
 }
 
-function clearCanvas() {
+function deleteCanvasGrid() {
+    for (let row of Array.from(canvas.children)){
+        for (let cell of Array.from(row.children)){
+            cell.remove();
+        }
+        row.remove();
+    }
+}
+
+function changeCanvasGrid(event) {
+    divisions = Number(event.target.value);
+    deleteCanvasGrid();
+    createCanvasGrid();
+}
+
+function eraseCanvas() {
     for (let row of Array.from(canvas.children)){
         for (let cell of Array.from(row.children)){
             cell.classList.remove(...cell.classList);
@@ -35,10 +51,8 @@ function clearCanvas() {
     eraseBtn.classList.remove('mode-selected');
 }
 
-function buttonHandler(event) {
+function manageButtonClicks(event) {
     switch (event.target.id) {
-        case 'control-panel':
-            return;
         case 'black-btn':
         case 'erase-btn':
             drawMode = event.target.id;
@@ -46,12 +60,14 @@ function buttonHandler(event) {
             blackBtn.classList.toggle('mode-selected');
             break;
         case 'clear-btn':
-            clearCanvas();
+            eraseCanvas();
             break;
+        default:
+            return;
     }
 }
 
-function drawHandler(event) {
+function drawOnCanvas(event) {
     switch (drawMode) {
         case 'black-btn':
             event.target.classList.replace('erase', 'black-ink');
@@ -64,6 +80,14 @@ function drawHandler(event) {
 
 createCanvasGrid();
 
-btnPanel.addEventListener('click', buttonHandler)
+btnPanel.addEventListener('click', manageButtonClicks)
 
-canvas.addEventListener('mouseover', drawHandler);
+canvas.addEventListener('mouseover', drawOnCanvas);
+
+gridSlider.addEventListener('mouseup', changeCanvasGrid);
+
+gridSlider.addEventListener('keyup', changeCanvasGrid);
+
+gridSlider.addEventListener('input', (event) => {
+    sliderLabel.textContent = `Squares per side: ${event.target.value}`;
+});

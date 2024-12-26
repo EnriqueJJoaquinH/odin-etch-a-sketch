@@ -25,7 +25,7 @@ body {
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     width: 30%;
     height: 60vh;
@@ -33,26 +33,72 @@ body {
     border: 2px solid #223D69;
 }
 
+#slide-ctrl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 24px;
+    align-self: stretch;
+}
+
+#grid-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #C7D5EC;
+    height: 8px;
+    width: 70%;
+    border-radius: 4px;
+    outline: none;
+}
+
+#grid-slider:hover {
+    background: #ABC1E4;
+    cursor: pointer;
+}
+
+#grid-slider:active {
+    background: #8FACDB;
+}
+
+#grid-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #3066BE;
+    border-radius: 10px;
+}
+
+#grid-slider::-webkit-slider-thumb:hover {
+    background: #295294;
+}
+
+#grid-slider::-webkit-slider-thumb:active {
+    background: #223D69;
+}
+
 #canvas {
     height: 90vh;
     width: 90vh;
+    flex: none;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
 }
 
 .row {
-    height: calc(90vh / 16);
+    flex: 1;
     display: flex;
 }
 
 .cell {
-    width: calc(90vh / 16);
+    flex: 1;
 }
 
 .black-ink {
     background-color: #000000;
-    border: none;
+    border: 1px solid #000000;
 }
 
 .erase {
