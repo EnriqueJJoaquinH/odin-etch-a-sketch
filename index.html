@@ -13,9 +13,18 @@
 <body>
     <div id="container">
         <div id="control-panel">
-            <button id="black-btn" class="mode-selected">Black</button>
-            <button id="erase-btn">Erase</button>
-            <button id="clear-btn">Clear</button>
+            <div class="btn-row">
+                <button id="black-btn" class="mode-selected">Black</button>
+                <button id="gradient-btn">Gradient</button>
+            </div>
+            <div class="btn-row">
+                <button id="rainbow-btn">Rainbow</button>
+                <button id="color-btn"><input type="color" id="color-box"></button>
+            </div>
+            <div class="btn-row">
+                <button id="erase-btn">Erase</button>
+                <button id="clear-btn">Clear</button>
+            </div>
             <div id="slide-ctrl">
                 <label for="grid-slider">Squares per side: 16</label>
                 <input type="range" id="grid-slider" min="1" max="100" value="16">
