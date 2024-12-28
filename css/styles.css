@@ -45,7 +45,23 @@ body {
 }
 
 #color-box {
-    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 50%;
+    inline-size: 24px;
+    block-size: 24px;
+    border: none;;
+    background-color: transparent;
+}
+
+#color-box::-webkit-color-swatch-wrapper {
+    border-radius: 50%;
+    padding-block: 2px;
+    padding-inline: 1px;
+}
+#color-box::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
 }
 
 #slide-ctrl {
@@ -143,5 +159,8 @@ button:active {
     background-color: #ABC1E4;
     color: #223D69;
     font-weight: bold;
+}
+
+.inactive {
     pointer-events: none;
 }
