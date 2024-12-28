@@ -112,6 +112,11 @@ function drawOnCanvas(event) {
             event.target.style.backgroundColor = inkColor;
             event.target.style.borderColor = inkColor;
             break;
+        case 'rainbow-btn':
+            let randColor = getRandomColor();
+            event.target.style.backgroundColor = randColor;
+            event.target.style.borderColor = randColor;
+            break;
         default:
             break;
     }
