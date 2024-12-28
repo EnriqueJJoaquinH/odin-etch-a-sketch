@@ -6,14 +6,12 @@ let drawMode = 'black-btn';
 let canvas = document.querySelector('#canvas');
 let btnPanel = document.querySelector('#control-panel');
 let blackBtn = document.querySelector('#black-btn');
-let gradientBtn = document.querySelector('#gradient-btn');
-let eraseBtn = document.querySelector('#erase-btn');
-let rainbowBtn = document.querySelector('#rainbow-btn');
-let colorBtn = document.querySelector('#color-btn');
 let colorBox = document.querySelector('#color-box');
 let gridSlider = document.querySelector('#grid-slider');
 let sliderLabel = document.querySelector('label[for="grid-slider"]');
 let buttons = document.querySelectorAll('button');
+
+// ? Canvas Grid related functions
 
 function createCanvasGrid() {
     for (let row = 0; row < divisions; row++){
@@ -43,6 +41,8 @@ function changeCanvasGrid(event) {
     createCanvasGrid();
 }
 
+// ? Button Pressed related functions
+
 function unselectButtons() {
     buttons.forEach((button) => {
         button.classList.remove('mode-selected', 'inactive');
@@ -54,6 +54,7 @@ function eraseCanvas() {
         for (let cell of Array.from(row.children)){
             cell.style.backgroundColor = '';
             cell.style.borderColor = '';
+            cell.style.opacity = '';
             cell.classList.remove(...cell.classList);
             cell.classList.add('cell', 'erase');
         }
@@ -66,9 +67,9 @@ function eraseCanvas() {
 function manageButtonClicks(event) {
     switch (event.target.id) {
         case 'black-btn':
-        case 'erase-btn':
         case 'gradient-btn':
         case 'rainbow-btn':
+        case 'erase-btn':
             drawMode = event.target.id;
             unselectButtons();
             event.target.classList.add('mode-selected', 'inactive');
@@ -87,6 +88,8 @@ function manageButtonClicks(event) {
     }
 }
 
+// ? Drawing related functions
+
 function getRandomColor() {
     let red = Math.floor(256 * Math.random());
     let green = Math.floor(256 * Math.random());
@@ -97,22 +100,37 @@ function getRandomColor() {
 
 function drawOnCanvas(event) {
     switch (drawMode) {
+        case 'gradient-btn':
+            let opacity = event.target.style.opacity;
+            if (opacity == ''){
+                event.target.style.opacity = '.1';
+            } else if (Number(opacity) < 1) {
+                event.target.style.opacity = `${Number(opacity) + .1}`;
+            }
+            event.target.style.backgroundColor = '';
+            event.target.style.borderColor = '';
+            event.target.classList.replace('erase', 'black-ink');
+            break;
         case 'black-btn':
             event.target.style.backgroundColor = '';
             event.target.style.borderColor = '';
+            event.target.style.opacity = '';
             event.target.classList.replace('erase', 'black-ink');
             break;
         case 'erase-btn':
             event.target.style.backgroundColor = '';
             event.target.style.borderColor = '';
+            event.target.style.opacity = '';
             event.target.classList.replace('black-ink', 'erase');
             break;
         case 'color-btn':
+            event.target.style.opacity = '';
             let inkColor = colorBox.value;
             event.target.style.backgroundColor = inkColor;
             event.target.style.borderColor = inkColor;
             break;
         case 'rainbow-btn':
+            event.target.style.opacity = '';
             let randColor = getRandomColor();
             event.target.style.backgroundColor = randColor;
             event.target.style.borderColor = randColor;
@@ -121,6 +139,8 @@ function drawOnCanvas(event) {
             break;
     }
 }
+
+// ? Initial configuration and event listeners
 
 createCanvasGrid();
 
